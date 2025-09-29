@@ -10,13 +10,18 @@ class AskRequest(BaseModel):
     question: str = Field(..., description="Pregunta sobre el archivo", min_length=1)
     file_id: Optional[str] = Field(None, description="ID del archivo específico")
     extra_file_ids: Optional[List[str]] = Field(None, description="IDs adicionales de archivos")
-    
+    system_prompt: Optional[str] = Field(
+        None,
+        description="Prompt del sistema personalizado (opcional). Si no se proporciona, se usará el prompt por defecto."
+    )
+
     class Config:
         json_schema_extra = {
             "example": {
                 "question": "¿Cuál es el tema principal de este documento?",
                 "file_id": "file-abc123",
-                "extra_file_ids": ["file-def456"]
+                "extra_file_ids": ["file-def456"],
+                "system_prompt": "Eres un asistente útil que responde de manera concisa."
             }
         }
 
@@ -40,13 +45,15 @@ class AskResponse(BaseModel):
     answer: str = Field(..., description="Respuesta generada por el modelo")
     used_file_ids: List[str] = Field(..., description="IDs de archivos utilizados")
     model: str = Field(..., description="Modelo de OpenAI utilizado")
+    system_prompt_used: str = Field(..., description="Prompt del sistema utilizado")
     
     class Config:
         json_schema_extra = {
             "example": {
                 "answer": "El documento trata sobre...",
                 "used_file_ids": ["file-abc123"],
-                "model": "gpt-4o"
+                "model": "gpt-4o",
+                "system_prompt_used": "Eres un asistente útil que responde de manera concisa."
             }
         }
 

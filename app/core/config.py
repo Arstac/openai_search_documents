@@ -20,9 +20,10 @@ class Settings(BaseSettings):
     debug: bool = False
     
     # OpenAI Configuration
-    openai_api_key: str
+    openai_api_key: str = os.getenv("OPENAI_API_KEY")
     openai_model: str = "gpt-4o"
-    
+    api_version: str = "2024-12-01-preview"
+
     # CORS Configuration
     allowed_origins: List[str] = ["*"]
     allowed_methods: List[str] = ["*"]
